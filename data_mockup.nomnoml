@@ -1,0 +1,19 @@
+[DATA|
+    [Fitness dashboard|
+        Timestamp: new Date()|
+        Workout type: Str()|
+        [Location tracking|
+            [Start|
+                Lat: Int()|
+                Lon: Int()|
+                timeStart: Str()]
+            [End|
+                Lat: Int()|
+                Lon: Int()|
+                timeEnd: Str()]    
+        ]|
+        Workout notes: Str()|
+        Total workout time: timeStart + timeEnd  
+    ]
+]
+

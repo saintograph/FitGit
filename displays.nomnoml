@@ -1,0 +1,24 @@
+[LOGIN/REGISTER]->[MAIN]
+[MAIN|
+    LIST|
+    Daily distance travelled (Line Chart)|
+    NEW WORKOUT
+]->[NEW WORKOUT]
+
+[NEW WORKOUT|
+    Map|
+    Workout type|
+    [Start workout]->[End workout]
+    [End workout] -> [Workout Notes|Track distance (if running)]
+]
+
+[MAIN]->[LIST]
+[LIST]->[INDIVIDUAL LISTING]
+[INDIVIDUAL LISTING|
+    Timestamp|
+    Workout Type|
+    Location Tracking (if running)|
+    Workout Notes|
+    Total workout time
+]
+
