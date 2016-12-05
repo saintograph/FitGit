@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 
-const NavBar = () => {
-    return (
-        <AppBar
-            title="FIT GIT"
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
-            style={{backgroundColor: '#FBD5DE', textAlign: 'center', fontWeight: 700}}
-        />
-    );
-};
+class NavBar extends Component {
+
+    handleToggle (event) {
+        event.preventDefault();
+        this.props.handleToggle();
+    }
+
+    render() {
+        return (
+            <AppBar
+                title="FIT GIT"
+                iconClassNameRight="muidocs-icon-navigation-expand-more"
+                style={{backgroundColor: '#FBD5DE', textAlign: 'center', fontWeight: 700}}
+                onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
+            />
+        );
+    }
+}
 
 export default NavBar;

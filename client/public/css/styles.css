@@ -2,8 +2,8 @@
     margin: 10px;
 }
 
-.listItem {
-    background-color: white;
+.listItem span {
+    text-align: left;
 }
 
 .leaflet-container {

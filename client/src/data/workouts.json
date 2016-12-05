@@ -5,5 +5,27 @@
         "notes": "Great workout!",
         "duration": "20 mins",
         "distance": "3 km"
-    }
+    },
+    "workoutList": [
+        {
+            "date": "12th December 2016",
+            "distance": "16"
+        },       
+        {
+            "date": "12th December 2016",
+            "distance": "15"
+        },
+        {
+            "date": "12th December 2016",
+            "distance": "13"
+        },
+        {
+            "date": "12th December 2016",
+            "distance": "17"
+        },
+        {
+            "date": "12th December 2016",
+            "distance": "11"
+        }
+    ]
 }

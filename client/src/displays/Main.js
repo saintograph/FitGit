@@ -12,8 +12,8 @@ import { Link } from 'react-router';
 
 const styles = {
 	listItem: {
+		textAlign: 'left',
 		backgroundColor: 'white',
-		textAlign: 'left'
 	}
 };
 
@@ -29,8 +29,10 @@ class Main extends Component {
             completed: 25,
             value: 1,
             distance: 5,
-			data: require('../data/workouts.json')
+			data: require('../data/workouts.json'),
+			workouts: require('../data/workouts.json')
         };
+		this.state = this.state;
 	}
 
 	componentWillMount() {
@@ -61,7 +63,9 @@ class Main extends Component {
                                 <h2 style={{padding: 20}}>WORKOUT STATS</h2>
                                 <h1>Total time : <StopWatch/></h1>
                                 Daily distance travelled : {meta.workouts.notes}
-                                <LinearProgress mode="determinate" value={this.state.completed} color="#C12574" />
+								<div className="box">
+                                	<LinearProgress mode="determinate" value={this.state.completed} color="#C12574"/>
+								</div>
                                 Your goal :
                                 <DropDownMenu value={this.state.value} onChange={this.handleChange.bind(this)}>
                                     <MenuItem value={1} primaryText="5 km" />
@@ -76,41 +80,17 @@ class Main extends Component {
 							<div className="box">
 								<List>
 								<Subheader style={{fontSize: 16, fontWeight: 700}}>WORKOUT LOG</Subheader>
-									<ListItem
-										primaryText="12th December 2016"
-										secondaryText="2.3 km"
-										leftAvatar={<Avatar src="http://placehold.it/128x128" />}
-										style={listItem}
-										disabled
-									/>
-									<ListItem
-										primaryText="Your workout 02"
-										secondaryText="2.3 km"
-										leftAvatar={<Avatar src="http://placehold.it/128x128" />}
-										style={listItem}
-										disabled
-									/>
-									<ListItem
-										primaryText="Your workout 03"
-										secondaryText="2.3 km"
-										leftAvatar={<Avatar src="http://placehold.it/128x128" />}
-										style={listItem}
-										disabled
-									/>
-									<ListItem
-										primaryText="Your workout 04"
-										secondaryText="2.3 km"
-										leftAvatar={<Avatar src="http://placehold.it/128x128" />}
-										style={listItem}
-										disabled
-									/>
-									<ListItem
-										primaryText="Your workout 05"
-										secondaryText="2.3 km"
-										leftAvatar={<Avatar src="http://placehold.it/128x128" />}
-										style={listItem}
-										disabled
-									/>
+								{this.state.workouts.workoutList.map((workout) => {
+										return(
+											<ListItem
+												key={workout.distance}
+												primaryText={workout.date}
+												secondaryText={workout.distance + ' km'}
+												leftAvatar={<Avatar src="http://placehold.it/128x128" />}
+												style={listItem}
+											/>
+										);
+								})}
 								</List>
 							</div>
 							</Card>

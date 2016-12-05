@@ -14,6 +14,7 @@ ReactDOM.render(
     <Route path="/" component={App}>
       <IndexRoute component={Main}/>
       <Route path="new" component={NewWorkout} />
+      <Route path="/workout/:workoutId" component={WorkoutDetail} />
     </Route>
   </Router>,
   document.getElementById('root')
