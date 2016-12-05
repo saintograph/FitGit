@@ -2,14 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import * as V from 'victory';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import Main from './displays/Main';
+import NewWorkout from './displays/NewWorkout';
+import WorkoutDetail from './displays/WorkoutDetail';
 
 injectTapEventPlugin();
 
 ReactDOM.render(
-  <MuiThemeProvider>
-    <App />
-  </MuiThemeProvider>,
+  <Router history={browserHistory}>
+    <Route path="/" component={App}>
+      <IndexRoute component={Main}/>
+      <Route path="new" component={NewWorkout} />
+    </Route>
+  </Router>,
   document.getElementById('root')
 );

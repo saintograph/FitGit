@@ -2,7 +2,7 @@
 
 [WORKOUTS|
     timestamp - datetime()|
-    workout notes - text()|
-    total workout time - time()|
+    notes - text()|
+    duration - time()|
     distance - integer()
 ]

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import NavBar from '../common/NavBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
 import { Card } from 'material-ui/Card';
@@ -9,6 +8,7 @@ import Subheader from 'material-ui/Subheader';
 import StopWatch from '../components/StopWatch';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import { Link } from 'react-router';
 
 const styles = {
 	listItem: {
@@ -19,6 +19,7 @@ const styles = {
 
 const {listItem} = styles;
 
+const meta = require('../data/workouts.json')
 
 class Main extends Component {
 
@@ -27,16 +28,21 @@ class Main extends Component {
 		this.state = {
             completed: 25,
             value: 1,
-            distance: 5
+            distance: 5,
+			data: require('../data/workouts.json')
         };
 	}
-	
+
+	componentWillMount() {
+
+	}
+
 	componentDidMount() {
 		if (navigator.geolocation) {
-		console.log('Geolocation is supported!');
+			console.log('Geolocation is supported!');
 		}
 		else {
-		console.log('Geolocation is not supported for this Browser/OS version yet.');
+			console.log('Geolocation is not supported for this Browser/OS version yet.');
 		}
 	}
 
@@ -47,7 +53,6 @@ class Main extends Component {
     render() {
         return (
             <div>
-                <NavBar />
 				<div className="row center-xs">
 					<div className="col-xs-10">
 						<div className="box">
@@ -55,7 +60,7 @@ class Main extends Component {
 								<div className="box">
                                 <h2 style={{padding: 20}}>WORKOUT STATS</h2>
                                 <h1>Total time : <StopWatch/></h1>
-                                Daily distance travelled : 2050 m
+                                Daily distance travelled : {meta.workouts.notes}
                                 <LinearProgress mode="determinate" value={this.state.completed} color="#C12574" />
                                 Your goal :
                                 <DropDownMenu value={this.state.value} onChange={this.handleChange.bind(this)}>
@@ -110,7 +115,9 @@ class Main extends Component {
 							</div>
 							</Card>
 							<div className="box">
-								<RaisedButton label="New Workout" secondary />
+								<Link to="new">
+									<RaisedButton label="New Workout" secondary />
+								</Link>
 							</div>
 						</div>
 					</div>

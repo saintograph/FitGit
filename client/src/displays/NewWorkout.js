@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import NavBar from '../common/NavBar';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -8,7 +7,6 @@ class NewWorkout extends Component {
     render() {
         return (
             <div>
-                <NavBar />
                 <div className="row center-xs">
                     <div className="box">
                         <RaisedButton label="End Workout" secondary /><br/>

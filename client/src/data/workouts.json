@@ -1,0 +1,9 @@
+{
+    "workouts": {
+        "id": 1,
+        "timestamp": "12122016",
+        "notes": "Great workout!",
+        "duration": "20 mins",
+        "distance": "3 km"
+    }
+}
