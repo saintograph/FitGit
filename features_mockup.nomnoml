@@ -1,8 +1,6 @@
 [FEATURES|
     Workout dates;
-    Type of workout;
     Location of workout;
-    Workout statistics;
     Workout log and comments;
     Offline data storage
 ]

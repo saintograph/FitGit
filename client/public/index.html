@@ -5,29 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/flexboxgrid.min.css">
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+    <title>FIT-GIT</title>
+    <style>
+			@font-face {
+					font-family: Geomanist, sans-serif;
+					src: url(%PUBLIC_URL%/fonts/geomanist_regular.woff);
+			}
+			@font-face {
+					font-family: Geomanist, sans-serif;
+					src: url(%PUBLIC_URL%/fonts/geomanist_bold.woff);
+					font-weight: bold;
+			}
+		</style>
   </head>
-  <body>
+  <body style="font-family: Geomanist, sans-serif; background-color: #F596AD; min-height: 750px;">
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
@@ -35,5 +32,6 @@
         });
       }
     </script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
   </body>
 </html>

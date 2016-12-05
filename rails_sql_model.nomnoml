@@ -1,14 +1,8 @@
-[DATABASE]->[WORKOUT]
+[DATABASE]->[WORKOUTS]
 
-[WORKOUT|
-    timestamp|
-    workout type (weight, cardio) - string()|
+[WORKOUTS|
+    timestamp - datetime()|
     workout notes - text()|
     total workout time - time()|
-    startLat - decimal()|
-    startLon - decimal()|
-    startTime - decimal()|
-    endLat - decimal()|
-    endLon - decimal()|
-    endTime - decimal()  
+    distance - integer()
 ]

@@ -2,7 +2,7 @@
     [Fitness dashboard|
         Timestamp: new Date()|
         Workout type: Str()|
-        [Location tracking|
+        [Location tracking (Total Distance) Int()|
             [Start|
                 Lat: Int()|
                 Lon: Int()|
@@ -16,4 +16,3 @@
         Total workout time: timeStart + timeEnd  
     ]
 ]
-
