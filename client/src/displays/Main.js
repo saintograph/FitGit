@@ -24,7 +24,14 @@ const { listItem } = styles;
 
 const meta = require('../data/workouts.json');
 
-const Main = observer(class Main extends Component {
+
+// const allesWorkouts = store.workouts.map((workout) => {
+//     <div key={workout.id}>
+//         <p>workout.notes</p>
+//     </div>
+// });
+
+const Main = inject('store')(observer(class Main extends Component {
 
     constructor(props) {
         super(props);
@@ -33,7 +40,7 @@ const Main = observer(class Main extends Component {
             value: 1,
             data: '',
             distance: 5,
-            workouts: require('../data/workouts.json')
+            workouts: 'bla'
         };
         this.setState = this.setState.bind(this);
         this.getData = this.getData.bind(this);
@@ -43,10 +50,12 @@ const Main = observer(class Main extends Component {
     }
 
     componentDidMount() {
-        console.log(store.start);
+        // console.log(store.workouts)
     }
 
     getData () {
+        // this.setState({workouts: store.workouts})
+        // console.log(store.workouts.toJSON)
     }
 
     handleChange (event, index, value) {
@@ -65,8 +74,8 @@ const Main = observer(class Main extends Component {
                             <Card style={{borderRadius: 10, minWidth: '75%'}}>
                                 <div className="box">
                                 <h2 style={{padding: 20}}>WORKOUT STATS</h2>
+                                {store.workouts.map(workout => <p key={workout.id}>{workout.distance}</p>)}
                                 <h1>Total time : <StopWatch/></h1>
-                                <h2>{store.start}</h2>
                                 Daily distance travelled : {meta.workouts.notes}
                                 <div className="box">
                                     <LinearProgress mode="determinate" value={this.state.completed} color="#C12574"/>
@@ -100,7 +109,8 @@ const Main = observer(class Main extends Component {
                             </div>
                             </Card>
                             <div className="box">
-                            <RaisedButton label="New Workout" onClick={this.getWorkouts} secondary />
+                            <RaisedButton label="New Workout" onClick={ () => { store.onLoad() } } secondary />
+                            <RaisedButton label="New whatever" onClick={this.getData} secondary />
                                 <Link to="new">
                                     <RaisedButton label="New Workout"secondary />
                                 </Link>
@@ -111,7 +121,7 @@ const Main = observer(class Main extends Component {
             </div>
         );
     }
-});
+}));
 
 export default Main;
 

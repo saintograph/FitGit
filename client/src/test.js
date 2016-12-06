@@ -7,10 +7,11 @@ const Test = inject('store')(observer(class Test extends Component {
         return (
             <div>
             <h1>test</h1>
+            {store.test}
             <button onClick={ () => { store.doThis() } }>A new BIG button</button>
             </div>
-        )
+        );
     }
-}))
+}));
 
 export default Test;

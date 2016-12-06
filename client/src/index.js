@@ -32,22 +32,14 @@ const stores = store;
 // ReactDOM.render(<Test store={store}/>, document.getElementById('root'))
 
 ReactDOM.render(
-    <Provider store={stores}>
+    <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/" component={App}>
-          <IndexRoute component={Test}/>
+          <IndexRoute component={Main}/>
           <Route path="new" component={NewWorkout} />
           <Route path="/workout/:workoutId" component={WorkoutDetail} />
         </Route>
       </Router>
-    </Provider>,
-  document.getElementById('root')
-);
-
-
-ReactDOM.render(
-    <Provider store={stores}>
-        <Test />
     </Provider>,
   document.getElementById('root')
 );
