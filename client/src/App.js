@@ -7,8 +7,10 @@ import NavBar from './common/NavBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router';
+import { observer } from 'mobx-react'
+import store from './store/DataStore';
 
-class App extends Component {
+const App = observer(class App extends Component {
 
 	constructor(props) {
 		super(props);
@@ -18,6 +20,9 @@ class App extends Component {
 		this.setState = this.setState.bind(this);
 		this.handleToggle = this.handleToggle.bind(this);
 		this.handleClose = this.handleClose.bind(this);
+	}
+
+	componentWillMount() {
 	}
 
 	handleToggle() {
@@ -48,7 +53,6 @@ class App extends Component {
 			</MuiThemeProvider>
 		);
 	}
-}
+})
 
 export default App;
-
