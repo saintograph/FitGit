@@ -1,0 +1,8 @@
+[DATABASE]->[WORKOUTS]
+
+[WORKOUTS|
+    timestamp - datetime()|
+    notes - text()|
+    duration - time()|
+    distance - integer()
+]

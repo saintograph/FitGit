@@ -1,38 +1,75 @@
 import React, {Component} from 'react';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import ReactInterval from 'react-interval';
+import moment from 'moment';
+import GeoLocation from '../components/GeoLocation'
+import { observer, inject, computed } from 'mobx-react';
+import store from '../store/DataStore';
 
-class NewWorkout extends Component {
+const NewWorkout = inject('store')(observer(class NewWorkout extends Component {
+    constructor(props) {
+        super(props)
+        this.state={
+            workoutState: false,
+            enabled: false,
+            timeout: 1000,
+            count: 0,
+            displayDuration: false
+        }
+        this.setState = this.setState.bind(this)
+    }
+
+    componentDidMount() {
+     }
+
+    startWorkout() {
+        const self = this;
+        this.setState({
+            enabled: true, 
+            workoutState: true,
+            displayDuration: false
+        })
+        store.startWorkout();
+    }
+
+    endWorkout() {
+        const self = this;
+        this.setState({
+            enabled: false, 
+            workoutState: false, 
+            count: 0,
+            displayDuration: true
+        })
+        store.endWorkout();   
+    }
+
     render() {
         return (
             <div>
                 <div className="row center-xs">
                     <div className="box">
-                        <RaisedButton label="End Workout" secondary /><br/>
-                        <TextField
-                          hintText="How did the workout go?"
-                          floatingLabelText="Notes"
-                        />
-                        <h1>10:20:10</h1>
-                            <div className="leaflet-container">
-                                <Map center={[51.505, -0.09]} zoom={13}>
-                                    <TileLayer
-                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                    url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                                    />
-                                    <Marker position={[51.505, -0.09]}>
-                                    <Popup>
-                                        <span>A pretty CSS3 popup. <br/> Easily customizable.</span>
-                                    </Popup>
-                                    </Marker>
-                                </Map>
+                        {this.state.workoutState ? 
+                            <div className="box">
+                                <RaisedButton label="End Workout" secondary onClick={this.endWorkout.bind(this)} /> 
                             </div>
+                            :
+                            <div className="box"> 
+                                <RaisedButton label="Start Workout" secondary onClick={this.startWorkout.bind(this)} />
+                            </div>
+                        }
+                        <h3>Total time: {this.state.count} seconds</h3>
+                        <h4>Workout duration: {this.state.displayDuration ? store.displayedDuration : <i style={{fontSize: 9}}>please begin your workout</i> }</h4>
+                        <div className="box">
+                        <ReactInterval  timeout={this.state.timeout} enabled={this.state.enabled}
+                          callback={() => this.setState({count: this.state.count + 1})} />
+                        </div>
+                        <GeoLocation />
                     </div>
                 </div>
             </div>
         );
     }
-}
+}))
 
 export default NewWorkout;

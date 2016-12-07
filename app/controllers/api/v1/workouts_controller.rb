@@ -1,6 +1,7 @@
 class Api::V1::WorkoutsController < Api::V1::BaseController
     def index
-        respond_with Workout.all
+        @workouts = Workout.order("created_at").limit(5)
+        respond_with @workouts
     end
 
     def create

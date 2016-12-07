@@ -12,6 +12,8 @@ import { Link } from 'react-router';
 import store from '../store/DataStore';
 import axios from 'axios';
 import { observer, action, inject, extendObservable } from 'mobx-react';
+import moment from 'moment';
+
 
 const styles = {
 	listItem: {
@@ -23,13 +25,6 @@ const styles = {
 const { listItem } = styles;
 
 const meta = require('../data/workouts.json');
-
-
-// const allesWorkouts = store.workouts.map((workout) => {
-//     <div key={workout.id}>
-//         <p>workout.notes</p>
-//     </div>
-// });
 
 const Main = inject('store')(observer(class Main extends Component {
 
@@ -43,19 +38,17 @@ const Main = inject('store')(observer(class Main extends Component {
             workouts: 'bla'
         };
         this.setState = this.setState.bind(this);
-        this.getData = this.getData.bind(this);
     }
 
     componentWillMount() {
     }
 
     componentDidMount() {
-        // console.log(store.workouts)
+        store.onLoad()
     }
 
-    getData () {
-        // this.setState({workouts: store.workouts})
-        // console.log(store.workouts.toJSON)
+    formatDate(value) {
+        return moment(value).format("MMMM Do YYYY").toString();
     }
 
     handleChange (event, index, value) {
@@ -74,7 +67,7 @@ const Main = inject('store')(observer(class Main extends Component {
                             <Card style={{borderRadius: 10, minWidth: '75%'}}>
                                 <div className="box">
                                 <h2 style={{padding: 20}}>WORKOUT STATS</h2>
-                                {store.workouts.map(workout => <p key={workout.id}>{workout.distance}</p>)}
+                                {/* {store.workouts.map(workout => <p key={workout.id}>{workout.distance}</p>)} */}
                                 <h1>Total time : <StopWatch/></h1>
                                 Daily distance travelled : {meta.workouts.notes}
                                 <div className="box">
@@ -94,17 +87,17 @@ const Main = inject('store')(observer(class Main extends Component {
                             <div className="box">
                                 <List>
                                 <Subheader style={{fontSize: 16, fontWeight: 700}}>WORKOUT LOG</Subheader>
-                                {/* {data.map((workout) => {
+                                {store.workouts.map((workout) => {
                                         return(
-                                            <ListItem
-                                                key={workout.id}
-                                                primaryText={workout.created_at}
-                                                secondaryText={workout.distance + ' km'}
-                                                leftAvatar={<Avatar src="http://placehold.it/128x128" />}
-                                                style={listItem}
-                                            />
+                                                <ListItem
+                                                    key={workout.id}
+                                                    primaryText={this.formatDate(workout.created_at)}
+                                                    secondaryText={workout.distance + ' km'}
+                                                    leftAvatar={<Avatar src="http://placehold.it/128x128" />}
+                                                    style={listItem}
+                                                />
                                         );
-                                })} */}
+                                })}
                                 </List>
                             </div>
                             </Card>

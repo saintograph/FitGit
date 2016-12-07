@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205070045) do
+ActiveRecord::Schema.define(version: 20161207045333) do
 
   create_table "workouts", force: :cascade do |t|
-    t.text     "notes"
     t.time     "duration"
     t.float    "distance"
     t.datetime "created_at", null: false
