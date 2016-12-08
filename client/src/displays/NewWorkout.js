@@ -5,6 +5,7 @@ import ReactInterval from 'react-interval';
 import moment from 'moment';
 import GeoLocation from '../components/GeoLocation'
 import { observer, inject, computed } from 'mobx-react';
+import axios from 'axios'
 import store from '../store/DataStore';
 
 const NewWorkout = inject('store')(observer(class NewWorkout extends Component {
@@ -21,7 +22,7 @@ const NewWorkout = inject('store')(observer(class NewWorkout extends Component {
     }
 
     componentDidMount() {
-     }
+    }
 
     startWorkout() {
         const self = this;

@@ -39,6 +39,7 @@ const Main = inject('store')(observer(class Main extends Component {
     componentWillMount() {
     }
     componentDidMount() {
+        store.localStorageConfig
         store.onLoad(); 
     }
 
@@ -85,7 +86,9 @@ const Main = inject('store')(observer(class Main extends Component {
                                 </div>
                             </Card>
                             <div className="box">
-                                <RaisedButton label="Refresh List" onClick={ () => {store.update} } secondary />
+                                <Link to="new">
+                                    <RaisedButton label="New Workout" secondary />
+                                </Link>
                             </div>
                             <Card style={{borderRadius: 10, minWidth: '75%'}}>
                             <div className="box">
@@ -107,11 +110,6 @@ const Main = inject('store')(observer(class Main extends Component {
                                 </List>
                             </div>
                             </Card>
-                            <div className="box">
-                                <Link to="new">
-                                    <RaisedButton label="New Workout" secondary />
-                                </Link>
-                            </div>
                         </div>
                     </div>
                 </div>

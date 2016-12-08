@@ -41,29 +41,65 @@ export class WorkoutStore {
                 return  valueB.diff(valueA, 'seconds');
             })
         });
+        this.localStorageConfig = action(function localStorageConfig() {
+            localforage.config({
+                driver      : localforage.IndexedDB,
+                name        : 'FitGit',
+                version     : 1.0,
+                storeName   : 'primary', 
+                description : 'some description'
+            });
+        })
         this.update = action(function update() {
-            axios.get('http://localhost:4000/api/v1/workouts.json')
-                .then((response) => {
-                    this.workouts.replace(response.data)
-                    const data = this.workouts.toJSON()
-                    localforage.clear();
-                    data.forEach((value) => {
-                        console.log(value)
-                        localforage.setItem(value.id, value);
-                    })          
+            localforage.getItems().then((value) => { 
+                var offlineWorkouts = _.filter(value, ['offline', true])
+                _.forEach(offlineWorkouts, (result) => {
+                    axios({
+                        method: 'post',
+                        url: 'http://localhost:4000/api/v1/workouts',
+                        data: {
+                            workout: {
+                                duration: result.duration,
+                                latitude: result.latitude,
+                                longitude: result.longitude,
+                            }
+                        }
+                    })
                 })
+            })
         })
         this.onLoad = action(function onLoad() {
-            axios.get('http://localhost:4000/api/v1/workouts.json')
+                axios.get('http://localhost:4000/api/v1/workouts.json')
                 .then((response) => {
                     this.workouts.replace(response.data)
                     const data = this.workouts.toJSON()
                     localforage.clear()
                     data.forEach((value) => {
-                        console.log(value)
+                        // console.log(value)
                         localforage.setItem(value.id, value);
-                    })          
+                    })
                 })
+                .then(
+                   localforage.getItems().then((value) => {
+                        const offlineWorkouts = _.filter(value, ['offline', true])
+                        _.forEach(offlineWorkouts, (result) => {
+                            axios({
+                                method: 'post',
+                                url: 'http://localhost:4000/api/v1/workouts',
+                                data: {
+                                    workout: {
+                                        duration: result.duration,
+                                        latitude: result.latitude,
+                                        longitude: result.longitude,
+                                    }
+                                }
+                            })
+                            .then(this.workouts.unshift(result))
+                            .then(console.log(result))
+                            // .then(localforage.removeItem(result.uuid))
+                        })
+                    })
+                )
                 .catch((error) => {
                     // Don't delete!
                     // localforage.length().then((length) => {
