@@ -26,13 +26,19 @@ Steps to get this aplication working :
 
 The application has 2 screens :
 
-* 'Main' screen with all workouts
+* 'Main' screen with all workouts. Syncs with offline workout after refresh.
 
 * 'New Workouts' screen. If a workout is started with 'START WORKOUT' and 'END WORKOUT' while offline, the data is saved and sent to the server when online.
 
-To minify and build it as a PWA, please  
+To minify and build it as a PWA, please run:
 
+* $ npm build
 
+* cd build
+
+* python -m http.server 
+
+That's it!
 
 ```$ bundle install``` installs the needed Ruby on Rails gems locally.
 
