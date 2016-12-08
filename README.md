@@ -1,24 +1,40 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Please ensure Rails 5 and Ruby 2.2.2++ are installed on your machine.
 
-Things you may want to cover:
+Steps to get this aplication working :
 
-* Ruby version
+* $ git clone https://github.com/winfredselwyn/fitgit.git
 
-* System dependencies
+* $ cd fitgit
 
-* Configuration
+* $ bundle install
 
-* Database creation
+* $ npm install
 
-* Database initialization
+* $ env PORT=4000 rails s (the Rails server will be on localhost:4000)
 
-* How to run the test suite
+* $ rails db:seed
 
-* Services (job queues, cache servers, search engines, etc.)
+* $ rails s
 
-* Deployment instructions
+* $ npm start
 
-* ...
+* navigate to localhost:3000
+
+* after initial load, disable the rails server ( CTRL + C at the terminal ) to test PWA capabilities.
+
+The application has 2 screens :
+
+* 'Main' screen with all workouts
+
+* 'New Workouts' screen. If a workout is started with 'START WORKOUT' and 'END WORKOUT' while offline, the data is saved and sent to the server when online.
+
+To minify and build it as a PWA, please  
+
+
+
+```$ bundle install``` installs the needed Ruby on Rails gems locally.
+
+```$ npm install``` installs npm packages locally.
+

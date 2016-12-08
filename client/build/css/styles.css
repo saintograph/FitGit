@@ -1,0 +1,16 @@
+.box {
+    margin: 10px;
+}
+
+.listItem span {
+    text-align: left;
+}
+
+.leaflet-container {
+    width: 350px;
+    height: 450px;
+}
+
+.drawer {
+    background-color: #FF4081;
+}
