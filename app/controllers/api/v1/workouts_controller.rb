@@ -1,6 +1,8 @@
 class Api::V1::WorkoutsController < Api::V1::BaseController
     def index
-        @workouts = Workout.order("created_at").limit(5)
+        @test = "test"
+        # @workouts = Workout.order(:created_at).reverse_order.limit(5)
+        @workouts = Workout.order("created_at").reverse_order.limit(5)
         respond_with @workouts
     end
 
@@ -21,6 +23,6 @@ class Api::V1::WorkoutsController < Api::V1::BaseController
     private
 
     def workout_params
-        params.require(:workout).permit(:id, :notes, :duration, :distance)
+        params.require(:workout).permit(:id, :duration, :latitude, :longitude)
     end
 end

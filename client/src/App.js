@@ -44,9 +44,16 @@ const App = observer(class App extends Component {
 					<NavBar handleToggle={this.handleToggle.bind(this)}/>
 					<Drawer
 						open={this.state.open}
+						style={{textAlign: "center"}}
+						containerClassName="drawer"
+						containerStyle={{backgroundColor: "#FF4081"}}
 					>
-						<Link to="/" onClick={this.handleClose}>Home</Link>
-						<Link to="new" onClick={this.handleClose}>New Workout</Link>
+						<div className="box">
+							<Link to="/" onClick={this.handleClose}>Home</Link><br/>
+						</div>
+						<div className="box">
+							<Link to="new" onClick={this.handleClose}>New Workout</Link>
+						</div>
 					</Drawer>
 					{this.props.children}
 				</div>

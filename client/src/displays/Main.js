@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import LinearProgress from 'material-ui/LinearProgress';
 import { Card } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import StopWatch from '../components/StopWatch';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router';
@@ -13,6 +11,8 @@ import store from '../store/DataStore';
 import axios from 'axios';
 import { observer, action, inject, extendObservable } from 'mobx-react';
 import moment from 'moment';
+import localforage from 'localforage';
+import _ from 'lodash';
 
 
 const styles = {
@@ -31,20 +31,20 @@ const Main = inject('store')(observer(class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            completed: 25,
-            value: 1,
-            data: '',
-            distance: 5,
-            workouts: 'bla'
+            workouts: store.workouts
         };
         this.setState = this.setState.bind(this);
     }
 
     componentWillMount() {
     }
-
     componentDidMount() {
-        store.onLoad()
+        store.onLoad(); 
+    }
+
+    componentWillUpdate() {
+    }
+    componentWillUnMount() {
     }
 
     formatDate(value) {
@@ -57,55 +57,59 @@ const Main = inject('store')(observer(class Main extends Component {
         });
     }
 
+    refreshUI() {
+        store.onLoad();
+    }
+
+    getMinutesSeconds(value){
+        const minutes = Math.floor(value / 60);
+        const seconds = Math.floor(value % 3600 % 60);
+        return String(minutes + ' minutes ' + seconds + ' seconds');
+    }
+
     render() {
-        const { data } = this.state;
+        const firstFiveEntries = _.take(store.workouts, 5);
+        const duration = _.map(firstFiveEntries, 'duration');
+        const duration2 = _.reduce(duration, (sum, n) => {return sum + n})
+        const minutes = Math.floor(duration2 / 60)
+        const seconds = Math.floor(duration2 % 3600 % 60)
         return (
             <div>
                 <div className="row center-xs">
                     <div className="col-xs-10">
                         <div className="box">
                             <Card style={{borderRadius: 10, minWidth: '75%'}}>
-                                <div className="box">
-                                <h2 style={{padding: 20}}>WORKOUT STATS</h2>
-                                {/* {store.workouts.map(workout => <p key={workout.id}>{workout.distance}</p>)} */}
-                                <h1>Total time : <StopWatch/></h1>
-                                Daily distance travelled : {meta.workouts.notes}
-                                <div className="box">
-                                    <LinearProgress mode="determinate" value={this.state.completed} color="#C12574"/>
-                                </div>
-                                Your goal :
-                                <DropDownMenu value={this.state.value} onChange={this.handleChange.bind(this)}>
-                                    <MenuItem value={1} primaryText="5 km" />
-                                    <MenuItem value={2} primaryText="10 km" />
-                                    <MenuItem value={3} primaryText="25 km" />
-                                    <MenuItem value={4} primaryText="42 km" />
-                                    <MenuItem value={5} primaryText="50 km" />
-                                </DropDownMenu>
+                                <div className="box" style={{paddingBottom: 35}}>
+                                    <h2 style={{padding: 20}}>WORKOUT STATS</h2>
+                                    <h3>Total duration 5 previous workouts :<br/> {minutes} minutes {seconds == 0 ? null : seconds + " seconds"}</h3>
                                 </div>
                             </Card>
+                            <div className="box">
+                                <RaisedButton label="Refresh List" onClick={ () => {store.update} } secondary />
+                            </div>
                             <Card style={{borderRadius: 10, minWidth: '75%'}}>
                             <div className="box">
                                 <List>
                                 <Subheader style={{fontSize: 16, fontWeight: 700}}>WORKOUT LOG</Subheader>
-                                {store.workouts.map((workout) => {
+                                {_.take(this.state.workouts, 5).map((workout) => {
                                         return(
                                                 <ListItem
-                                                    key={workout.id}
+                                                    key={workout.id ? workout.id : workout.uuid}
                                                     primaryText={this.formatDate(workout.created_at)}
-                                                    secondaryText={workout.distance + ' km'}
+                                                    secondaryText={this.getMinutesSeconds(workout.duration)}
                                                     leftAvatar={<Avatar src="http://placehold.it/128x128" />}
                                                     style={listItem}
-                                                />
+                                                >
+                                                { workout.offline ? <span style={{height: 15, fontSize: 11}}>offline save</span>: <span></span>}
+                                                </ListItem>
                                         );
                                 })}
                                 </List>
                             </div>
                             </Card>
                             <div className="box">
-                            <RaisedButton label="New Workout" onClick={ () => { store.onLoad() } } secondary />
-                            <RaisedButton label="New whatever" onClick={this.getData} secondary />
                                 <Link to="new">
-                                    <RaisedButton label="New Workout"secondary />
+                                    <RaisedButton label="New Workout" secondary />
                                 </Link>
                             </div>
                         </div>

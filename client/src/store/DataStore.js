@@ -1,7 +1,11 @@
 import { autorun, extendObservable, action, computed } from 'mobx';
 import localforage from 'localforage';
+import getItems from 'localforage-getitems';
+import startsWith from 'localforage-startswith';
 import moment from 'moment';
 import axios from 'axios';
+import uuidV1 from 'node-uuid';
+import _ from 'lodash';
 
 export class WorkoutStore {
     constructor() {
@@ -27,22 +31,37 @@ export class WorkoutStore {
                     const valueD = valueB.diff(valueA, 'minutes');
                 return valueC
             }),
-            location: {
-                startLat: navigator.geolocation.getCurrentPosition((position) => {return position.coords.latitude}),
-                endLon: navigator.geolocation.getCurrentPosition((position) => {
-                    return Number((position.coords.longitude).toFixed(3))
-                })
-            }
+            startLat: '',
+            startLon: '',
+            totalDuration: '',
+            lastWorkout: '',
+            duration: computed(() => { 
+                const valueA = moment(this.startTime);
+                const valueB = moment(this.endTime);
+                return  valueB.diff(valueA, 'seconds');
+            })
         });
-        this.onLoad = action(function onLoad() {
+        this.update = action(function update() {
             axios.get('http://localhost:4000/api/v1/workouts.json')
                 .then((response) => {
                     this.workouts.replace(response.data)
                     const data = this.workouts.toJSON()
                     localforage.clear();
-                    data.forEach((el) => {
-                        console.log(el.id.toString())
-                        localforage.setItem(el.id, el);
+                    data.forEach((value) => {
+                        console.log(value)
+                        localforage.setItem(value.id, value);
+                    })          
+                })
+        })
+        this.onLoad = action(function onLoad() {
+            axios.get('http://localhost:4000/api/v1/workouts.json')
+                .then((response) => {
+                    this.workouts.replace(response.data)
+                    const data = this.workouts.toJSON()
+                    localforage.clear()
+                    data.forEach((value) => {
+                        console.log(value)
+                        localforage.setItem(value.id, value);
                     })          
                 })
                 .catch((error) => {
@@ -55,10 +74,23 @@ export class WorkoutStore {
                     // })
                     localforage.iterate(
                         (value, key, iterationNumber) => {
-                            this.workouts.push(value)
+                            if (value.offline == true) {
+                                this.workouts.unshift(value)
+                            } else {
+                                this.workouts.push(value)
+                            }
                         }
                     )
+                    // Working offline -> online database sync!
+                    // localforage.getItems().then((value) => { 
+                    //     var test = _.filter(value, ['offline', true])
+                    //     console.log(test[0])
+                    //     _.forEach(test, (result) => {
+                    //         console.log(result.created_at)
+                    //     })
+                    // })
                 })
+
         });
         this.startWorkout = action(function startWorkout() {
             this.startTime = Date.now();
@@ -66,15 +98,39 @@ export class WorkoutStore {
         })
         this.endWorkout = action(function endWorkout() {
             this.endTime = Date.now();
+            axios({
+                method: 'post',
+                url: 'http://localhost:4000/api/v1/workouts',
+                data: {
+                    workout: {
+                        duration: this.duration,
+                        latitude: this.startLat,
+                        longitude: this.startLon,
+                    }
+                }
+            })
+            .catch((error) => {
+                const value = {
+                    offline: true,
+                    uuid: uuidV1(),
+                    duration: this.duration,
+                    latitude: this.startLat,
+                    longitude: this.startLon,
+                }
+                localforage.setItem(value.uuid, value);
+            })
         })
-        // this.test = action(function test() { 
-        //     if (navigator.geolocation) {
-        //       console.log('Geolocation is supported!');
-        //     }
-        //     else {
-        //       console.log('Geolocation is not supported for this Browser/OS version yet.');
-        //     }
-        // })
+        this.getStartingPosition = action(function getStartingPosition() {
+            var self;
+            navigator.geolocation.getCurrentPosition((position) => {
+                const self = this;
+                self.startLat = Number(position.coords.latitude).toFixed(3);
+                self.startLon = Number(position.coords.longitude).toFixed(3);
+            })
+        })
+        this.saveData = action(function saveData() {
+
+        })
     }
 }
 
