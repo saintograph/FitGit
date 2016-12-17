@@ -1,36 +1,4 @@
-# README
-
-
-
-
-
-Steps to get this aplication working :
-
-
-* after initial load, disable the rails server ( CTRL + C at the terminal ) to test PWA capabilities.
-
-The application has 2 screens :
-
-* 'Main' screen with all workouts. Syncs with offline workout after refresh.
-
-* 'New Workouts' screen. If a workout is started with 'START WORKOUT' and 'END WORKOUT' while offline, the data is saved and sent to the server when online.
-
-To minify and build it as a PWA, please run:
-
-* $ npm build
-
-* cd build
-
-* python -m http.server 
-
-That's it!
-
-```$ bundle install``` installs the needed Ruby on Rails gems locally.
-
-```$ npm install``` installs npm packages locally.
-
-
-# ${1:FITGIT}
+# FITGIT
 A PWA (Progressive Web Application) fitness app that logs location and duration of workouts. Built with React and Rails.
 ## Installation
 Please ensure Rails 5 and Ruby 2.2.2++ are installed on your machine.
