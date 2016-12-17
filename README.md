@@ -33,5 +33,6 @@ That's all folks!
 
 ## Credits
 * [Jeff Posnick](https://github.com/jeffposnick/create-react-pwa)
+
 ## License
 MIT
