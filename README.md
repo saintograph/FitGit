@@ -24,10 +24,10 @@ The application has 2 screens :
 
 To build the JS client, please run:
 
-1. cd client
-1. npm build
-2. cd build
-3. python -m http.server 
+1. $ cd client
+1. $ npm build
+2. $ cd build
+3. $ python -m http.server 
 
 That's all folks!
 
